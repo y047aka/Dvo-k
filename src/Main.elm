@@ -208,7 +208,7 @@ row_5 activeKey =
             , "control"
             , "option"
             , "command"
-            , ""
+            , " "
             , "command"
             , "option"
             , "<"

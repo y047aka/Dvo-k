@@ -5037,7 +5037,7 @@ var author$project$Main$row_4 = function (activeKey) {
 };
 var author$project$Main$row_5 = function (activeKey) {
 	var keys = _List_fromArray(
-		['fn', 'control', 'option', 'command', '', 'command', 'option', '<', '◇', '>']);
+		['fn', 'control', 'option', 'command', ' ', 'command', 'option', '<', '◇', '>']);
 	var keyTop = author$project$Main$keyTopElement(activeKey);
 	return A2(
 		elm$html$Html$ul,
