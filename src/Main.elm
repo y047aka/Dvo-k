@@ -2,7 +2,8 @@ module Main exposing (main)
 
 import Browser
 import Html exposing (Html, li, main_, section, text, textarea, ul)
-import Html.Attributes exposing (class, rows)
+import Html.Attributes exposing (class, rows, value)
+import Html.Events exposing (onInput)
 
 
 main : Program () Model Msg
@@ -21,12 +22,13 @@ main =
 
 type alias Model =
     { userState : String
+    , content : String
     }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( Model ""
+    ( Model "" ""
     , Cmd.none
     )
 
@@ -37,6 +39,7 @@ init _ =
 
 type Msg
     = NoOp
+    | UpdateContent String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -44,6 +47,17 @@ update msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
+
+        UpdateContent content ->
+            Tuple.pair
+                { model | content = content }
+                Cmd.none
+
+
+contentTail : String -> String
+contentTail content =
+    String.right 1 content
+        |> String.toUpper
 
 
 
@@ -55,24 +69,35 @@ view model =
     main_
         []
         [ section [ class "preview" ]
-            [ textarea [ rows 4 ] [] ]
-        , section [ class "keyboard" ] [ keyboard ]
+            [ textarea [ rows 4, onInput UpdateContent, value model.content ] [] ]
+        , section [ class "keyboard" ] [ keyboard <| contentTail model.content ]
         ]
 
 
-keyboard : Html Msg
-keyboard =
+keyboard : String -> Html Msg
+keyboard activeKey =
     ul [ class "rows" ]
-        [ li [] [ row_1 ]
-        , li [] [ row_2 ]
-        , li [] [ row_3 ]
-        , li [] [ row_4 ]
-        , li [] [ row_5 ]
+        [ li [] [ row_1 activeKey ]
+        , li [] [ row_2 activeKey ]
+        , li [] [ row_3 activeKey ]
+        , li [] [ row_4 activeKey ]
+        , li [] [ row_5 activeKey ]
         ]
 
 
-row_1 : Html Msg
-row_1 =
+keyTopClass : String -> String -> Html.Attribute msg
+keyTopClass activeKey key =
+    Html.Attributes.classList
+        [ ( "active", key == activeKey ) ]
+
+
+keyTopElement : String -> String -> Html msg
+keyTopElement activeKey key =
+    li [ keyTopClass key activeKey ] [ text key ]
+
+
+row_1 : String -> Html Msg
+row_1 activeKey =
     let
         keys =
             [ "`"
@@ -91,14 +116,14 @@ row_1 =
             , "delete"
             ]
 
-        keyTop key =
-            li [] [ text key ]
+        keyTop =
+            keyTopElement activeKey
     in
     ul [ class "keys", class "row-1" ] (keys |> List.map keyTop)
 
 
-row_2 : Html Msg
-row_2 =
+row_2 : String -> Html Msg
+row_2 activeKey =
     let
         keys =
             [ "tab"
@@ -117,15 +142,15 @@ row_2 =
             , "\\"
             ]
 
-        keyTop key =
-            li [] [ text key ]
+        keyTop =
+            keyTopElement activeKey
     in
     ul [ class "keys", class "row-2" ]
         (keys |> List.map keyTop)
 
 
-row_3 : Html Msg
-row_3 =
+row_3 : String -> Html Msg
+row_3 activeKey =
     let
         keys =
             [ "caps lock"
@@ -143,15 +168,15 @@ row_3 =
             , "return"
             ]
 
-        keyTop key =
-            li [] [ text key ]
+        keyTop =
+            keyTopElement activeKey
     in
     ul [ class "keys", class "row-3" ]
         (keys |> List.map keyTop)
 
 
-row_4 : Html Msg
-row_4 =
+row_4 : String -> Html Msg
+row_4 activeKey =
     let
         keys =
             [ "shift"
@@ -168,22 +193,22 @@ row_4 =
             , "shift"
             ]
 
-        keyTop key =
-            li [] [ text key ]
+        keyTop =
+            keyTopElement activeKey
     in
     ul [ class "keys", class "row-4" ]
         (keys |> List.map keyTop)
 
 
-row_5 : Html Msg
-row_5 =
+row_5 : String -> Html Msg
+row_5 activeKey =
     let
         keys =
             [ "fn"
             , "control"
             , "option"
             , "command"
-            , ""
+            , " "
             , "command"
             , "option"
             , "<"
@@ -191,8 +216,8 @@ row_5 =
             , ">"
             ]
 
-        keyTop key =
-            li [] [ text key ]
+        keyTop =
+            keyTopElement activeKey
     in
     ul [ class "keys", class "row-5" ]
         (keys |> List.map keyTop)

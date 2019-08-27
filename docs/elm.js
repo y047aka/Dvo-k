@@ -4310,9 +4310,10 @@ function _Browser_load(url)
 		}
 	}));
 }
-var author$project$Main$Model = function (userState) {
-	return {userState: userState};
-};
+var author$project$Main$Model = F2(
+	function (userState, content) {
+		return {content: content, userState: userState};
+	});
 var elm$core$Basics$False = {$: 'False'};
 var elm$core$Basics$True = {$: 'True'};
 var elm$core$Result$isOk = function (result) {
@@ -4792,13 +4793,48 @@ var elm$core$Platform$Cmd$batch = _Platform_batch;
 var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
 var author$project$Main$init = function (_n0) {
 	return _Utils_Tuple2(
-		author$project$Main$Model(''),
+		A2(author$project$Main$Model, '', ''),
 		elm$core$Platform$Cmd$none);
 };
+var elm$core$Tuple$pair = F2(
+	function (a, b) {
+		return _Utils_Tuple2(a, b);
+	});
 var author$project$Main$update = F2(
 	function (msg, model) {
-		return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
+		if (msg.$ === 'NoOp') {
+			return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
+		} else {
+			var content = msg.a;
+			return A2(
+				elm$core$Tuple$pair,
+				_Utils_update(
+					model,
+					{content: content}),
+				elm$core$Platform$Cmd$none);
+		}
 	});
+var author$project$Main$UpdateContent = function (a) {
+	return {$: 'UpdateContent', a: a};
+};
+var elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var elm$core$String$length = _String_length;
+var elm$core$String$slice = _String_slice;
+var elm$core$String$right = F2(
+	function (n, string) {
+		return (n < 1) ? '' : A3(
+			elm$core$String$slice,
+			-n,
+			elm$core$String$length(string),
+			string);
+	});
+var elm$core$String$toUpper = _String_toUpper;
+var author$project$Main$contentTail = function (content) {
+	return elm$core$String$toUpper(
+		A2(elm$core$String$right, 1, content));
+};
 var elm$core$List$foldrHelper = F4(
 	function (fn, acc, ctr, ls) {
 		if (!ls.b) {
@@ -4854,6 +4890,17 @@ var elm$core$List$foldr = F3(
 	function (fn, acc, ls) {
 		return A4(elm$core$List$foldrHelper, fn, acc, 0, ls);
 	});
+var elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2(elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
 var elm$core$List$map = F2(
 	function (f, xs) {
 		return A3(
@@ -4868,6 +4915,11 @@ var elm$core$List$map = F2(
 			_List_Nil,
 			xs);
 	});
+var elm$core$Tuple$second = function (_n0) {
+	var y = _n0.b;
+	return y;
+};
+var elm$json$Json$Encode$string = _Json_wrap;
 var elm$core$Basics$identity = function (x) {
 	return x;
 };
@@ -4886,11 +4938,6 @@ var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 			return 3;
 	}
 };
-var elm$html$Html$li = _VirtualDom_node('li');
-var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
-var elm$html$Html$ul = _VirtualDom_node('ul');
-var elm$json$Json$Encode$string = _Json_wrap;
 var elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
 		return A2(
@@ -4899,18 +4946,47 @@ var elm$html$Html$Attributes$stringProperty = F2(
 			elm$json$Json$Encode$string(string));
 	});
 var elm$html$Html$Attributes$class = elm$html$Html$Attributes$stringProperty('className');
-var author$project$Main$row_1 = function () {
-	var keys = _List_fromArray(
-		['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '[', ']', 'delete']);
-	var keyTop = function (key) {
+var elm$html$Html$Attributes$classList = function (classes) {
+	return elm$html$Html$Attributes$class(
+		A2(
+			elm$core$String$join,
+			' ',
+			A2(
+				elm$core$List$map,
+				elm$core$Tuple$first,
+				A2(elm$core$List$filter, elm$core$Tuple$second, classes))));
+};
+var author$project$Main$keyTopClass = F2(
+	function (activeKey, key) {
+		return elm$html$Html$Attributes$classList(
+			_List_fromArray(
+				[
+					_Utils_Tuple2(
+					'active',
+					_Utils_eq(key, activeKey))
+				]));
+	});
+var elm$html$Html$li = _VirtualDom_node('li');
+var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
+var author$project$Main$keyTopElement = F2(
+	function (activeKey, key) {
 		return A2(
 			elm$html$Html$li,
-			_List_Nil,
+			_List_fromArray(
+				[
+					A2(author$project$Main$keyTopClass, key, activeKey)
+				]),
 			_List_fromArray(
 				[
 					elm$html$Html$text(key)
 				]));
-	};
+	});
+var elm$html$Html$ul = _VirtualDom_node('ul');
+var author$project$Main$row_1 = function (activeKey) {
+	var keys = _List_fromArray(
+		['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '[', ']', 'delete']);
+	var keyTop = author$project$Main$keyTopElement(activeKey);
 	return A2(
 		elm$html$Html$ul,
 		_List_fromArray(
@@ -4919,19 +4995,11 @@ var author$project$Main$row_1 = function () {
 				elm$html$Html$Attributes$class('row-1')
 			]),
 		A2(elm$core$List$map, keyTop, keys));
-}();
-var author$project$Main$row_2 = function () {
+};
+var author$project$Main$row_2 = function (activeKey) {
 	var keys = _List_fromArray(
 		['tab', '\'', ',', '.', 'P', 'Y', 'F', 'G', 'C', 'R', 'L', '/', '=', '\\']);
-	var keyTop = function (key) {
-		return A2(
-			elm$html$Html$li,
-			_List_Nil,
-			_List_fromArray(
-				[
-					elm$html$Html$text(key)
-				]));
-	};
+	var keyTop = author$project$Main$keyTopElement(activeKey);
 	return A2(
 		elm$html$Html$ul,
 		_List_fromArray(
@@ -4940,19 +5008,11 @@ var author$project$Main$row_2 = function () {
 				elm$html$Html$Attributes$class('row-2')
 			]),
 		A2(elm$core$List$map, keyTop, keys));
-}();
-var author$project$Main$row_3 = function () {
+};
+var author$project$Main$row_3 = function (activeKey) {
 	var keys = _List_fromArray(
 		['caps lock', 'A', 'O', 'E', 'U', 'I', 'D', 'H', 'T', 'N', 'S', '-', 'return']);
-	var keyTop = function (key) {
-		return A2(
-			elm$html$Html$li,
-			_List_Nil,
-			_List_fromArray(
-				[
-					elm$html$Html$text(key)
-				]));
-	};
+	var keyTop = author$project$Main$keyTopElement(activeKey);
 	return A2(
 		elm$html$Html$ul,
 		_List_fromArray(
@@ -4961,19 +5021,11 @@ var author$project$Main$row_3 = function () {
 				elm$html$Html$Attributes$class('row-3')
 			]),
 		A2(elm$core$List$map, keyTop, keys));
-}();
-var author$project$Main$row_4 = function () {
+};
+var author$project$Main$row_4 = function (activeKey) {
 	var keys = _List_fromArray(
 		['shift', ';', 'Q', 'J', 'K', 'X', 'B', 'M', 'W', 'V', 'Z', 'shift']);
-	var keyTop = function (key) {
-		return A2(
-			elm$html$Html$li,
-			_List_Nil,
-			_List_fromArray(
-				[
-					elm$html$Html$text(key)
-				]));
-	};
+	var keyTop = author$project$Main$keyTopElement(activeKey);
 	return A2(
 		elm$html$Html$ul,
 		_List_fromArray(
@@ -4982,19 +5034,11 @@ var author$project$Main$row_4 = function () {
 				elm$html$Html$Attributes$class('row-4')
 			]),
 		A2(elm$core$List$map, keyTop, keys));
-}();
-var author$project$Main$row_5 = function () {
+};
+var author$project$Main$row_5 = function (activeKey) {
 	var keys = _List_fromArray(
-		['fn', 'control', 'option', 'command', '', 'command', 'option', '<', '◇', '>']);
-	var keyTop = function (key) {
-		return A2(
-			elm$html$Html$li,
-			_List_Nil,
-			_List_fromArray(
-				[
-					elm$html$Html$text(key)
-				]));
-	};
+		['fn', 'control', 'option', 'command', ' ', 'command', 'option', '<', '◇', '>']);
+	var keyTop = author$project$Main$keyTopElement(activeKey);
 	return A2(
 		elm$html$Html$ul,
 		_List_fromArray(
@@ -5003,41 +5047,53 @@ var author$project$Main$row_5 = function () {
 				elm$html$Html$Attributes$class('row-5')
 			]),
 		A2(elm$core$List$map, keyTop, keys));
-}();
-var author$project$Main$keyboard = A2(
-	elm$html$Html$ul,
-	_List_fromArray(
-		[
-			elm$html$Html$Attributes$class('rows')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			elm$html$Html$li,
-			_List_Nil,
-			_List_fromArray(
-				[author$project$Main$row_1])),
-			A2(
-			elm$html$Html$li,
-			_List_Nil,
-			_List_fromArray(
-				[author$project$Main$row_2])),
-			A2(
-			elm$html$Html$li,
-			_List_Nil,
-			_List_fromArray(
-				[author$project$Main$row_3])),
-			A2(
-			elm$html$Html$li,
-			_List_Nil,
-			_List_fromArray(
-				[author$project$Main$row_4])),
-			A2(
-			elm$html$Html$li,
-			_List_Nil,
-			_List_fromArray(
-				[author$project$Main$row_5]))
-		]));
+};
+var author$project$Main$keyboard = function (activeKey) {
+	return A2(
+		elm$html$Html$ul,
+		_List_fromArray(
+			[
+				elm$html$Html$Attributes$class('rows')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				elm$html$Html$li,
+				_List_Nil,
+				_List_fromArray(
+					[
+						author$project$Main$row_1(activeKey)
+					])),
+				A2(
+				elm$html$Html$li,
+				_List_Nil,
+				_List_fromArray(
+					[
+						author$project$Main$row_2(activeKey)
+					])),
+				A2(
+				elm$html$Html$li,
+				_List_Nil,
+				_List_fromArray(
+					[
+						author$project$Main$row_3(activeKey)
+					])),
+				A2(
+				elm$html$Html$li,
+				_List_Nil,
+				_List_fromArray(
+					[
+						author$project$Main$row_4(activeKey)
+					])),
+				A2(
+				elm$html$Html$li,
+				_List_Nil,
+				_List_fromArray(
+					[
+						author$project$Main$row_5(activeKey)
+					]))
+			]));
+};
 var elm$html$Html$main_ = _VirtualDom_node('main');
 var elm$html$Html$section = _VirtualDom_node('section');
 var elm$html$Html$textarea = _VirtualDom_node('textarea');
@@ -5046,6 +5102,41 @@ var elm$html$Html$Attributes$rows = function (n) {
 		_VirtualDom_attribute,
 		'rows',
 		elm$core$String$fromInt(n));
+};
+var elm$html$Html$Attributes$value = elm$html$Html$Attributes$stringProperty('value');
+var elm$html$Html$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 'MayStopPropagation', a: a};
+};
+var elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var elm$html$Html$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			elm$virtual_dom$VirtualDom$on,
+			event,
+			elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var elm$json$Json$Decode$field = _Json_decodeField;
+var elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3(elm$core$List$foldr, elm$json$Json$Decode$field, decoder, fields);
+	});
+var elm$json$Json$Decode$string = _Json_decodeString;
+var elm$html$Html$Events$targetValue = A2(
+	elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	elm$json$Json$Decode$string);
+var elm$html$Html$Events$onInput = function (tagger) {
+	return A2(
+		elm$html$Html$Events$stopPropagationOn,
+		'input',
+		A2(
+			elm$json$Json$Decode$map,
+			elm$html$Html$Events$alwaysStop,
+			A2(elm$json$Json$Decode$map, tagger, elm$html$Html$Events$targetValue)));
 };
 var author$project$Main$view = function (model) {
 	return A2(
@@ -5065,7 +5156,9 @@ var author$project$Main$view = function (model) {
 						elm$html$Html$textarea,
 						_List_fromArray(
 							[
-								elm$html$Html$Attributes$rows(4)
+								elm$html$Html$Attributes$rows(4),
+								elm$html$Html$Events$onInput(author$project$Main$UpdateContent),
+								elm$html$Html$Attributes$value(model.content)
 							]),
 						_List_Nil)
 					])),
@@ -5076,7 +5169,10 @@ var author$project$Main$view = function (model) {
 						elm$html$Html$Attributes$class('keyboard')
 					]),
 				_List_fromArray(
-					[author$project$Main$keyboard]))
+					[
+						author$project$Main$keyboard(
+						author$project$Main$contentTail(model.content))
+					]))
 			]));
 };
 var elm$browser$Browser$External = function (a) {
@@ -5176,8 +5272,6 @@ var elm$core$Task$perform = F2(
 			elm$core$Task$Perform(
 				A2(elm$core$Task$map, toMessage, task)));
 	});
-var elm$core$String$length = _String_length;
-var elm$core$String$slice = _String_slice;
 var elm$core$String$dropLeft = F2(
 	function (n, string) {
 		return (n < 1) ? string : A3(
