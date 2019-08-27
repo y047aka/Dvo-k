@@ -89,6 +89,11 @@ section.keyboard ul.rows li ul.keys li {
   background: #333;
   color: #EEE;
   border-radius: 0.5rem;
+  border: 2px solid #333;
+}
+section.keyboard ul.rows li ul.keys li.active {
+  background: #EEE;
+  color: #222;
 }
 
 /*# sourceMappingURL=style.css.map */
