@@ -4817,24 +4817,144 @@ var author$project$Main$update = F2(
 var author$project$Main$UpdateContent = function (a) {
 	return {$: 'UpdateContent', a: a};
 };
-var elm$core$Basics$negate = function (n) {
-	return -n;
-};
-var elm$core$String$length = _String_length;
-var elm$core$String$slice = _String_slice;
-var elm$core$String$right = F2(
-	function (n, string) {
-		return (n < 1) ? '' : A3(
-			elm$core$String$slice,
-			-n,
-			elm$core$String$length(string),
-			string);
+var author$project$FullWidthConverter$convertTable = _List_fromArray(
+	[
+		_Utils_Tuple2('Ａ', 'A'),
+		_Utils_Tuple2('Ｂ', 'B'),
+		_Utils_Tuple2('Ｃ', 'C'),
+		_Utils_Tuple2('Ｄ', 'D'),
+		_Utils_Tuple2('Ｅ', 'E'),
+		_Utils_Tuple2('Ｆ', 'F'),
+		_Utils_Tuple2('Ｇ', 'G'),
+		_Utils_Tuple2('Ｈ', 'H'),
+		_Utils_Tuple2('Ｉ', 'I'),
+		_Utils_Tuple2('Ｊ', 'J'),
+		_Utils_Tuple2('Ｋ', 'K'),
+		_Utils_Tuple2('Ｌ', 'L'),
+		_Utils_Tuple2('Ｍ', 'M'),
+		_Utils_Tuple2('Ｎ', 'N'),
+		_Utils_Tuple2('Ｏ', 'O'),
+		_Utils_Tuple2('Ｐ', 'P'),
+		_Utils_Tuple2('Ｑ', 'Q'),
+		_Utils_Tuple2('Ｒ', 'R'),
+		_Utils_Tuple2('Ｓ', 'S'),
+		_Utils_Tuple2('Ｔ', 'T'),
+		_Utils_Tuple2('Ｕ', 'U'),
+		_Utils_Tuple2('Ｖ', 'V'),
+		_Utils_Tuple2('Ｗ', 'W'),
+		_Utils_Tuple2('Ｘ', 'X'),
+		_Utils_Tuple2('Ｙ', 'Y'),
+		_Utils_Tuple2('Ｚ', 'Z'),
+		_Utils_Tuple2('１', '1'),
+		_Utils_Tuple2('２', '2'),
+		_Utils_Tuple2('３', '3'),
+		_Utils_Tuple2('４', '4'),
+		_Utils_Tuple2('５', '5'),
+		_Utils_Tuple2('６', '6'),
+		_Utils_Tuple2('７', '7'),
+		_Utils_Tuple2('８', '8'),
+		_Utils_Tuple2('９', '9'),
+		_Utils_Tuple2('０', '0'),
+		_Utils_Tuple2('ぁ', 'A'),
+		_Utils_Tuple2('あ', 'A'),
+		_Utils_Tuple2('ぃ', 'I'),
+		_Utils_Tuple2('い', 'I'),
+		_Utils_Tuple2('ぅ', 'U'),
+		_Utils_Tuple2('う', 'U'),
+		_Utils_Tuple2('ぇ', 'E'),
+		_Utils_Tuple2('え', 'E'),
+		_Utils_Tuple2('ぉ', 'O'),
+		_Utils_Tuple2('お', 'O'),
+		_Utils_Tuple2('か', 'A'),
+		_Utils_Tuple2('が', 'A'),
+		_Utils_Tuple2('き', 'I'),
+		_Utils_Tuple2('ぎ', 'I'),
+		_Utils_Tuple2('く', 'U'),
+		_Utils_Tuple2('ぐ', 'U'),
+		_Utils_Tuple2('け', 'E'),
+		_Utils_Tuple2('げ', 'E'),
+		_Utils_Tuple2('こ', 'O'),
+		_Utils_Tuple2('ご', 'O'),
+		_Utils_Tuple2('さ', 'A'),
+		_Utils_Tuple2('ざ', 'A'),
+		_Utils_Tuple2('し', 'I'),
+		_Utils_Tuple2('じ', 'I'),
+		_Utils_Tuple2('す', 'U'),
+		_Utils_Tuple2('ず', 'U'),
+		_Utils_Tuple2('せ', 'E'),
+		_Utils_Tuple2('ぜ', 'E'),
+		_Utils_Tuple2('そ', 'O'),
+		_Utils_Tuple2('ぞ', 'O'),
+		_Utils_Tuple2('た', 'A'),
+		_Utils_Tuple2('だ', 'A'),
+		_Utils_Tuple2('ち', 'I'),
+		_Utils_Tuple2('ぢ', 'I'),
+		_Utils_Tuple2('っ', 'U'),
+		_Utils_Tuple2('つ', 'U'),
+		_Utils_Tuple2('づ', 'U'),
+		_Utils_Tuple2('て', 'E'),
+		_Utils_Tuple2('で', 'E'),
+		_Utils_Tuple2('と', 'O'),
+		_Utils_Tuple2('ど', 'O'),
+		_Utils_Tuple2('な', 'A'),
+		_Utils_Tuple2('に', 'I'),
+		_Utils_Tuple2('ぬ', 'U'),
+		_Utils_Tuple2('ね', 'E'),
+		_Utils_Tuple2('の', 'O'),
+		_Utils_Tuple2('は', 'A'),
+		_Utils_Tuple2('ば', 'A'),
+		_Utils_Tuple2('ぱ', 'A'),
+		_Utils_Tuple2('ひ', 'I'),
+		_Utils_Tuple2('び', 'I'),
+		_Utils_Tuple2('ぴ', 'I'),
+		_Utils_Tuple2('ふ', 'U'),
+		_Utils_Tuple2('ぶ', 'U'),
+		_Utils_Tuple2('ぷ', 'U'),
+		_Utils_Tuple2('へ', 'E'),
+		_Utils_Tuple2('べ', 'E'),
+		_Utils_Tuple2('ぺ', 'E'),
+		_Utils_Tuple2('ほ', 'O'),
+		_Utils_Tuple2('ぼ', 'O'),
+		_Utils_Tuple2('ぽ', 'O'),
+		_Utils_Tuple2('ま', 'A'),
+		_Utils_Tuple2('み', 'I'),
+		_Utils_Tuple2('む', 'U'),
+		_Utils_Tuple2('め', 'E'),
+		_Utils_Tuple2('も', 'O'),
+		_Utils_Tuple2('ゃ', 'A'),
+		_Utils_Tuple2('や', 'A'),
+		_Utils_Tuple2('ゅ', 'U'),
+		_Utils_Tuple2('ゆ', 'U'),
+		_Utils_Tuple2('ょ', 'O'),
+		_Utils_Tuple2('よ', 'O'),
+		_Utils_Tuple2('ら', 'A'),
+		_Utils_Tuple2('り', 'I'),
+		_Utils_Tuple2('る', 'U'),
+		_Utils_Tuple2('れ', 'E'),
+		_Utils_Tuple2('ろ', 'O'),
+		_Utils_Tuple2('ゎ', 'A'),
+		_Utils_Tuple2('わ', 'A'),
+		_Utils_Tuple2('ゐ', 'I'),
+		_Utils_Tuple2('ゑ', 'E'),
+		_Utils_Tuple2('を', 'O'),
+		_Utils_Tuple2('ん', 'N'),
+		_Utils_Tuple2('；', ';'),
+		_Utils_Tuple2('’', '\''),
+		_Utils_Tuple2('、', ','),
+		_Utils_Tuple2('。', '.'),
+		_Utils_Tuple2('・', '/'),
+		_Utils_Tuple2('‘', '`'),
+		_Utils_Tuple2('ー', '-'),
+		_Utils_Tuple2('／', '/'),
+		_Utils_Tuple2('＝', '='),
+		_Utils_Tuple2('＼', '\\'),
+		_Utils_Tuple2('「', '['),
+		_Utils_Tuple2('」', ']')
+	]);
+var author$project$FullWidthConverter$filterConvertTable = F2(
+	function (str, list) {
+		return _Utils_eq(list.a, str);
 	});
-var elm$core$String$toUpper = _String_toUpper;
-var author$project$Main$contentTail = function (content) {
-	return elm$core$String$toUpper(
-		A2(elm$core$String$right, 1, content));
-};
 var elm$core$List$foldrHelper = F4(
 	function (fn, acc, ctr, ls) {
 		if (!ls.b) {
@@ -4901,6 +5021,70 @@ var elm$core$List$filter = F2(
 			_List_Nil,
 			list);
 	});
+var elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return elm$core$Maybe$Just(x);
+	} else {
+		return elm$core$Maybe$Nothing;
+	}
+};
+var elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return elm$core$Maybe$Nothing;
+		}
+	});
+var elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
+var elm$core$Tuple$second = function (_n0) {
+	var y = _n0.b;
+	return y;
+};
+var author$project$FullWidthConverter$toAscii = function (str) {
+	return A2(
+		elm$core$Maybe$withDefault,
+		str,
+		A2(
+			elm$core$Maybe$map,
+			elm$core$Tuple$second,
+			elm$core$List$head(
+				A2(
+					elm$core$List$filter,
+					author$project$FullWidthConverter$filterConvertTable(str),
+					author$project$FullWidthConverter$convertTable))));
+};
+var elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var elm$core$String$length = _String_length;
+var elm$core$String$slice = _String_slice;
+var elm$core$String$right = F2(
+	function (n, string) {
+		return (n < 1) ? '' : A3(
+			elm$core$String$slice,
+			-n,
+			elm$core$String$length(string),
+			string);
+	});
+var elm$core$String$toUpper = _String_toUpper;
+var author$project$Main$contentTail = function (content) {
+	return author$project$FullWidthConverter$toAscii(
+		elm$core$String$toUpper(
+			A2(elm$core$String$right, 1, content)));
+};
 var elm$core$List$map = F2(
 	function (f, xs) {
 		return A3(
@@ -4915,10 +5099,6 @@ var elm$core$List$map = F2(
 			_List_Nil,
 			xs);
 	});
-var elm$core$Tuple$second = function (_n0) {
-	var y = _n0.b;
-	return y;
-};
 var elm$json$Json$Encode$string = _Json_wrap;
 var elm$core$Basics$identity = function (x) {
 	return x;

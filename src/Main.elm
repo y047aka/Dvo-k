@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import Browser
+import FullWidthConverter exposing (toAscii)
 import Html exposing (Html, li, main_, section, text, textarea, ul)
 import Html.Attributes exposing (class, rows, value)
 import Html.Events exposing (onInput)
@@ -58,6 +59,7 @@ contentTail : String -> String
 contentTail content =
     String.right 1 content
         |> String.toUpper
+        |> toAscii
 
 
 
