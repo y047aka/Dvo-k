@@ -4,5 +4,7 @@ node_modules
 # Elm Dependency directory
 elm-stuff
 
-# Default directory at "npm run build"
-public
+# Default directory at "npm start"
+public/style.css
+public/style.css.map
+public/build/main.js

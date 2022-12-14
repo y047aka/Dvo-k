@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dvo-k</title>
     <link rel="stylesheet" href="./style.css">
-    <script src="./elm.js"></script>
-    <script src="./main.js" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -16,5 +14,9 @@
     <footer class="site-footer">
       <p class="copyright">&copy; 2019 y047aka + shikamiya</p>
     </footer>
+    <script src="./build/main.js"></script>
+    <script>
+      Elm.Main.init({ node: document.getElementById('elm') });
+    </script>
   </body>
 </html>
