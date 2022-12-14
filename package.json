@@ -1,16 +1,13 @@
 {
   "scripts": {
     "clean": "rimraf docs",
-    "watch:elm": "elm-watch hot",
-    "watch:sass": "sass --watch src:public",
-    "watch": "sass src:public && npm-run-all -p watch:*",
     "compile:html": "cpx public/index.html docs",
     "compile:elm": "elm make src/Main.elm --optimize --output=docs/build/elm.optimized.js",
-    "compile:sass": "sass --style=compressed --no-source-map src:docs",
+    "compile:css": "sass --style=compressed --no-source-map public:docs",
     "compile": "npm-run-all -p compile:*",
     "minify:elm": "google-closure-compiler --js=docs/build/elm.optimized.js --js_output_file=docs/build/main.js && rimraf docs/build/elm.optimized.js",
     "build": "npm-run-all -s clean compile minify:elm",
-    "start": "npm-run-all -s watch",
+    "start": "elm-watch hot",
     "test": "elm-test"
   },
   "devDependencies": {
